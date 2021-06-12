@@ -12,7 +12,7 @@ cls = lambda: os.system('cls') if os.name == 'nt' else os.system('clear')
 updateStatus = ''
 updateSoft = ''
 
-dataProject = requests.get('https://raw.githubusercontent.com/TheWay-hue/C.A.S-Discord-Tool-v2/main/metadata.json')
+dataProject = requests.get('https://raw.githubusercontent.com/TheWay-hue/C.A.S-Discord-Tool-v4/main/metadata.json')
 version1 = (dataProject.json()['Version'])
 with open('metadata.json', 'r') as f:
 	config = json.load(f)
@@ -250,7 +250,7 @@ intro = (f'''
  [ Created by Cyber-Crypto.Anarchy.Squad
  [ Telegram C.A.S - https://t.me/anarchy_squad
  [ Telegram Hydra crash bots - https://t.me/EvLVHydraNews
- [ Github - https://github.com/TheWay-hue/C.A.S-Discord-Tool-v2 
+ [ Github - https://github.com/TheWay-hue/C.A.S-Discord-Tool-v4
  
  [1] Grab Info.
  [2] Annihilation.

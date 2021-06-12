@@ -12,7 +12,7 @@ cls = lambda: os.system('cls') if os.name == 'nt' else os.system('clear')
 updateStatus = ''
 updateSoft = ''
 
-dataProject = requests.get('https://raw.githubusercontent.com/TheWay-hue/C.A.S-Discord-Tool-v4/main/metadata.json')
+dataProject = requests.get('https://raw.githubusercontent.com/TheWay-hue/C.A.S-Discord-Tool-v4/master/metadata.json')
 version1 = (dataProject.json()['Version'])
 with open('metadata.json', 'r') as f:
 	config = json.load(f)

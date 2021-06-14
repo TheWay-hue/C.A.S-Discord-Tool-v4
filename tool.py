@@ -238,7 +238,7 @@ helpGrabInfoRU = 'Этот пункт позволит вам получить �
 
 helpGrabInfoEN = 'This item will allow you to get information from your account using its token. You will receive a number, mail, status 2f, ID and nickname'
 
-statuses = [200, 204, 429]
+statuses = [200, 204, 429, 201]
 
 intro = (f'''
  [===========================================]
@@ -847,7 +847,7 @@ def animator():
 	errorLog.close()
 	nextCode = input('\nPress key to continue.')
 
-#Add To File----------------------------------------------+
+#Token track----------------------------------------------+
 
 def tokenTrack():
 	sessionName = 'Token track'
@@ -868,8 +868,8 @@ def tokenTrack():
 				'password': password,
 				'undelete': False
 				}
-			requ = requests.post('https://discord.com/api/v8/auth/login', json=infoLogin)
-			if req.ok:
+			req = requests.post('https://discord.com/api/v8/auth/login', json=infoLogin)
+			if req.status_code in statuses:
 				info = req.json()
 				token = info['token']
 				print(f'\nToken: {token}')
@@ -890,7 +890,7 @@ def tokenTrack():
 					'undelete': False
 					}
 				req = requests.post('https://discord.com/api/v8/auth/login', json=infoLogin)
-				if req.ok:
+				if req.status_code in statuses:
 					info = req.json()
 					token = info['token']
 					print(f'Token: {token}')

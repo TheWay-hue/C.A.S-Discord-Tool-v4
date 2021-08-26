@@ -472,8 +472,7 @@ def crash(jsonHook, defaultMessage, nameHooks, icons, icon, statuses):
 			info5 = {'content':defaultMessage,'username':nameHooks,'avatar_url':icons}
 			deface = {'name': 'C.A.S', 'verification_level': None, 'icon': icon}
 			x = 1
-			token =glitchMenu = '''\n[1] - Glitcher
-[2] - Help.''' input('\nToken: ')
+			token = input('\nToken: ')
 			serverID = input('\nServer ID: ')
 			headers = {'Authorization': token}
 			headers2 = {'Content-Type': 'application/json', 'Authorization': token}
